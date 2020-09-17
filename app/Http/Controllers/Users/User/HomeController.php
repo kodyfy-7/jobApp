@@ -44,8 +44,8 @@ class HomeController extends Controller
     public function show(Job $job)
     {
         $categories = Category::all();
-        $resume = Resume::whereUserId(auth()->user()->id)->whereResumeStatus(1)->first();
-        return view('view-job', compact('categories', 'job', 'resume'));
+        //$resume = Resume::whereUserId(auth()->user()->id)->whereResumeStatus(1)->first();
+    return view('view-job', compact('categories', 'job'/*, 'resume'*/));
     }
 
     public function upload(Request $request)

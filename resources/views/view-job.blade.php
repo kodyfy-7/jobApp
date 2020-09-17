@@ -31,7 +31,11 @@
                                         <div class="modal-body">
                                             <h4>Text in a modal</h4>
                                         
-                                            
+                                            @if (auth()->user()->resume_id != null)
+                                                <p>You are about to apply for this job using your default CV: . Please use the button below to upload a new CV if you wish.</p>
+                                            @else
+                                                No available CV.
+                                            @endif
                                         
 
                                         
