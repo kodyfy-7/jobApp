@@ -26,6 +26,7 @@ class CreateClientsTable extends Migration
             $table->string('linkedin_link')->nullable();
             $table->string('twitter_link')->nullable();
             $table->string('facebook_link')->nullable();
+            $table->integer('profile_status')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
