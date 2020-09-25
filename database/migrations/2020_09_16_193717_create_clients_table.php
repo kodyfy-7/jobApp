@@ -22,6 +22,10 @@ class CreateClientsTable extends Migration
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
+            $table->string('logo');
+            $table->string('linkedin_link');
+            $table->string('twitter_link');
+            $table->string('facebook_link');
             $table->rememberToken();
             $table->timestamps();
         });

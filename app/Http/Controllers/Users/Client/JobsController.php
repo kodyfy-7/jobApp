@@ -26,9 +26,14 @@ class JobsController extends Controller
 
     public function index()
     {
-        $cID = auth()->user()->id;
-        $jobs = Job::whereClientId($cID)->get();
-        return view('client.job.index', compact('jobs'));
+        if(auth()->user()->profile_status > 0)
+        {
+            $cID = auth()->user()->id;
+            $jobs = Job::whereClientId($cID)->get();
+            return view('client.job.index', compact('jobs'));
+        } 
+        return redirect()->back();
+        
     }
 
     /**
@@ -38,7 +43,11 @@ class JobsController extends Controller
      */
     public function create()
     {
-        return view('client.job.create');
+        if(auth()->user()->profile_status > 0)
+        {
+            return view('client.job.create');
+        } 
+        return redirect()->back();
     }
 
     /**
@@ -66,7 +75,7 @@ class JobsController extends Controller
             'job_deadline' => $request->input('deadline'),
             'client_id' => auth()->user()->id,
         ]);
-        return redirect()->back()->with('success', 'Job has been created. Please note that its not public yet');
+        return redirect()->back()->with('success', 'Job has been created. Please note that its not public yet.');
     }
 
     /**
@@ -75,9 +84,9 @@ class JobsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Job $job)
     {
-        //
+        return view('client.job.show', compact('job'));
     }
 
     /**
@@ -88,11 +97,16 @@ class JobsController extends Controller
      */
     public function edit(Job $job)
     {
-        //Check for correct user
-        if(auth()->user()->id !== $job->client->id){
-            return redirect()->back()->with('error', 'Unauthorized page!');
-        }
-        return view('client.job.edit', compact('job'));
+        if(auth()->user()->profile_status > 0)
+        {
+            //Check for correct user
+            if(auth()->user()->id !== $job->client->id){
+                return redirect()->back()->with('error', 'Unauthorized page!');
+            }
+            return view('client.job.edit', compact('job'));
+        } 
+        return redirect()->back();
+        
     }
 
     /**

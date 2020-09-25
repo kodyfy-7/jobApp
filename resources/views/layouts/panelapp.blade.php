@@ -77,7 +77,10 @@
                                 </li>
                             @elseif (Auth::user()->type == 2)
                                 <li>
-                                    <a href="/deposit"><i class="fa fa-dashboard"></i> Deposit </a>
+                                    <a href="/client/jobs"><i class="fa fa-briefcase"></i> Jobs </a>
+                                </li>
+                                <li>
+                                    <a href="/client/applications"><i class="fa fa-briefcase"></i> Applications </a>
                                 </li>
                             @else 
                             <li>

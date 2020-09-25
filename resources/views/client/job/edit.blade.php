@@ -6,7 +6,7 @@
 @endsection
 
 @section('page_title')
-    Jobs
+    Jobs <a href="/client/jobs" class="btn btn-info btn-xs">Go back</a>
 @endsection
 
 @section('content')

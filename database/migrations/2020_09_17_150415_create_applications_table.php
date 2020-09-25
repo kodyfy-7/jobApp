@@ -21,6 +21,8 @@ class CreateApplicationsTable extends Migration
             $table->foreign('job_id')->references('id')->on('jobs');
             $table->unsignedBigInteger('resume_id')->nullable();
             $table->foreign('resume_id')->references('id')->on('resumes');
+            $table->string('app_slug');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

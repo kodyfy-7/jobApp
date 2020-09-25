@@ -6,7 +6,7 @@
 @endsection
 
 @section('page_title')
-    Jobs
+    Jobs <a href="/client/jobs/create" class="btn btn-info btn-xs">Add a new vacancy</a>
 @endsection
 
 @section('content')
@@ -37,7 +37,7 @@
                                     <tr>
                                         <td> {{$loop->iteration}} </td>
                                         <td>
-                                            <a>{{$job->job_title}}</a>
+                                            <a href="/client/jobs/{{$job->job_slug}}">{{$job->job_title}}</a>
                                             <br />
                                             <small>{{$job->job_deadline}}</small>
                                         </td>

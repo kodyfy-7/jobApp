@@ -19,6 +19,8 @@ class CreateResumesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('resume_status')->default('1');
             $table->string('resume_slug');
+            $table->string('resume_file');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

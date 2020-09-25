@@ -18,10 +18,13 @@ class CreateJobsTable extends Migration
             $table->unsignedBigInteger('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on('clients');  
             $table->string('job_title');
-            $table->string('job_description');
+            $table->longText('job_description');
             $table->string('job_deadline');          
             $table->boolean('job_status')->default(0);
             $table->string('job_slug')->unique();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

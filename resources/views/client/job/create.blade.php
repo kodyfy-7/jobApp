@@ -6,7 +6,7 @@
 @endsection
 
 @section('page_title')
-    Jobs
+    Jobs <a href="/client/jobs" class="btn btn-info btn-xs">Go back</a>
 @endsection
 
 @section('content')
@@ -31,7 +31,7 @@
 
                         <div class="form-group">
                             {{Form::label('category', 'Select Category')}}
-                            {{Form::select('category', App\Category::pluck('category_name', 'id'), '',['id' => 'category', 'class' => 'form-control', 'placeholder' => 'Select Post Category'])}}
+                            {{Form::select('category', App\Category::pluck('category_name', 'id'), '',['id' => 'category', 'class' => 'form-control', 'placeholder' => 'Select Job Category'])}}
                         </div>
 
                         <div class="form-group">
