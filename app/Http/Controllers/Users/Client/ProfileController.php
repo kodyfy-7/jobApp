@@ -163,6 +163,7 @@ class ProfileController extends Controller
         }
 
         $form_data = array(
+            'profile_status'        =>  1,
             'address'        =>  $request->input('address'),
             'city'        =>  $request->input('city'),
             'state'        =>  $request->input('state'),
