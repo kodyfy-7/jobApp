@@ -3,20 +3,18 @@
 namespace App\Http\Controllers\Users\User;
 
 use App\Http\Controllers\Controller;
-use Request;//Illuminate\Http\Request; 
+use Illuminate\Http\Request; 
 use Illuminate\Support\Str;
-//use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 use App\User;
 use App\Job;
-use App\Category;
 use App\Resume;
 use App\Application;
+use App\Mail\SendCVToClient;
 
-use App\Client;
-use App\ClientProfile;
-
-class HomeController extends Controller
+class ApplicationController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,7 +23,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show', 'search'/*, 'category'*/]]);
+        $this->middleware('auth');
     }
 
     /**
@@ -33,37 +31,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+ 
+    public function apply(Request $request)
     {
-        $categories = Category::orderBy('created_at', 'desc')->paginate(10);
-        $jobs = Job::whereJobStatus(1)->orderBy('created_at', 'desc')->paginate(10);
-        return view('welcome', compact('categories', 'jobs'));
-    }
-
-    public function home()
-    {
-        return view('user.dashboard');
-    }
-
-    public function show(Job $job)
-    {
-        $categories = Category::all();
-        $company = Client::find($job->client_id);
-        return view('view-job', compact('categories', 'job', 'company'));
-    }
-
-    public function search()
-    {
-            $categories = Category::all();
-            $search = Request::input('search');
-            $details = Job::where('job_title', 'LIKE', '%'.$search.'%')->orWhere('job_description', 'LIKE', '%'.$search.'%')->paginate(10);
-            return view('search', compact('details', 'categories', 'search'));
-          
-    }
-
-    public function upload(Request $request)
-    {
-        $job_id = Request::input('job_id');
+        $job_id = $request->input('job_id');
         $appStatus = Application::whereJobId($job_id)->whereUserId(auth()->user()->id)->exists();
         if($appStatus) 
         {
@@ -104,14 +75,14 @@ class HomeController extends Controller
                 User::whereId(auth()->user()->id)->update($form_data);
 
                 $slug_name = Str::kebab(auth()->user()->name);
-                $slug_job = Str::kebab(Request::input('job_title'));
+                $slug_job = Str::kebab($request->input('job_title'));
                 $slug = $slug_name.'-'.$slug_job;
 
                 //Create Application
                 $application = new Application;
                 $application->resume_id = $resume->id;
                 $application->user_id = auth()->user()->id;
-                $application->job_id = Request::input('job_id');
+                $application->job_id = $request->input('job_id');
                 $application->app_slug = $slug;
                 $application->save();
             } else
@@ -120,7 +91,7 @@ class HomeController extends Controller
                     'cv_file' => 'max:1999'
                 ]);
                 //Handle file upload
-                if(Request::hasFile('cv_file')){
+                if($request->hasFile('cv_file')){
                     // Get filename with the extension
                     $filenameWithExt = $request->file('cv_file')->getClientOriginalName();
                     // Get just filename
@@ -138,11 +109,11 @@ class HomeController extends Controller
                     $resume = new Resume;
                     $resume->resume_file = $fileNameToStore;
                     $resume->user_id = auth()->user()->id;
-                    $resume->resume_status = Request::input('status');
+                    $resume->resume_status = $request->input('status');
                     $resume->resume_slug = $slug;
                     $resume->save();
 
-                    if(Request::input('status') == 1){
+                    if($request->input('status') == 1){
                         $form_data = array(
                             'resume_id'        =>  $resume->id
                         );
@@ -151,32 +122,37 @@ class HomeController extends Controller
                     }
 
                     $slug_name = Str::kebab(auth()->user()->name);
-                    $slug_job = Str::kebab(Request::input('job_title'));
+                    $slug_job = Str::kebab($request->input('job_title'));
                     $slug = $slug_name.'-'.$slug_job;
 
                     //Create Application
                     $application = new Application;
                     $application->resume_id = $resume->id;
                     $application->user_id = auth()->user()->id;
-                    $application->job_id = Request::input('job_id');
+                    $application->job_id = $request->input('job_id');
                     $application->app_slug = $slug;
                     $application->save();
                 } else {
 
                     $slug_name = Str::kebab(auth()->user()->name);
-                    $slug_job = Str::kebab(Request::input('job_title'));
+                    $slug_job = Str::kebab($request->input('job_title'));
                     $slug = $slug_name.'-'.$slug_job;
 
                     //Create Application
                     $application = new Application;
                     $application->resume_id = auth()->user()->resume_id;
                     $application->user_id = auth()->user()->id;
-                    $application->job_id = Request::input('job_id');
+                    $application->job_id = $request->input('job_id');
                     $application->app_slug = $slug;
                     $application->save();
                 }   
             }
-                 
+                 $data = array(
+                     'name' => auth()->user()->name,
+                     'title' => $request->input('job_title'),
+                 );
+
+                 //Mail::to($request->input('cemail'))->send(new SendCVToClient($data) );
             // send application to company email with CV
             return redirect()->back()->with('success', 'You have successfully applied for this job, good luck.');
         } 

@@ -62,6 +62,7 @@ class JobsController extends Controller
             'title' => 'required',
             'category' => 'required',
             'content' => 'required',
+            'deadline' => 'required|date'
         ]);
 
         $slug = Str::kebab($request->title);

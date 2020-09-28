@@ -16,6 +16,11 @@ class Resume extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'resume_slug';

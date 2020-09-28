@@ -49,7 +49,18 @@
                     <!-- menu prile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                        <img src="{{ asset('img/user.png') }}" alt="..." class="img-circle profile_img">
+                            @if (Auth::user()->type == 1)
+                                <img src="{{ asset('backend/images/user.png') }}" alt="..." class="img-circle profile_img">
+                            @elseif (Auth::user()->type == 2)
+                                @if (Auth::user()->logo == null)
+                                    <img src="{{ asset('backend/images/user.png') }}" alt="..." class="img-circle profile_img">
+                                @else
+                                    <img src="/storage/company_logos/{{Auth::user()->logo}}" alt="..." class="img-circle profile_img">
+                                @endif
+                                    
+                            @else 
+                                <img src="{{ asset('backend/images/user.png') }}" alt="..." class="img-circle profile_img">  
+                            @endif                        
                         </div>
                         <div class="profile_info">
                         <span>Welcome,</span>
@@ -63,31 +74,38 @@
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
-                        <h3>General</h3>
-                        <ul class="nav side-menu">
-                            <li>
-                            <a href="#"><i class="fa fa-dashboard"></i> Dashboard </a>
-                            
-                            </li>
-
-
-                            @if (Auth::user()->type == 1)
-                                <li>
-                                    <a href="#"><i class="fa fa-dashboard"></i> Clients </a>
-                                </li>
-                            @elseif (Auth::user()->type == 2)
-                                <li>
-                                    <a href="/client/jobs"><i class="fa fa-briefcase"></i> Jobs </a>
-                                </li>
-                                <li>
-                                    <a href="/client/applications"><i class="fa fa-briefcase"></i> Applications </a>
-                                </li>
-                            @else 
-                            <li>
-                                <a href="/deposit"><i class="fa fa-dashboard"></i> User </a>
-                            </li>
-                            @endif
-                        </ul>
+                            <h3>General</h3>
+                            <ul class="nav side-menu">
+                                @if (Auth::user()->type == 1)
+                                    <li>
+                                        <a href=" {{route('admin.dashboard')}} "><i class="fa fa-dashboard"></i> Dashboard </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-dashboard"></i> Clients </a>
+                                    </li>
+                                @elseif (Auth::user()->type == 2)
+                                    <li>
+                                        <a href=" {{route('client.dashboard')}} "><i class="fa fa-dashboard"></i> Dashboard </a>
+                                        
+                                    </li>
+                                    <li>
+                                        <a href=" {{route('profile.index')}} "><i class="fa fa-suitcase"></i> Profile </a>
+                                    </li>
+                                    <li>
+                                        <a href=" {{route('jobs.index')}}"><i class="fa fa-tasks"></i> Jobs </a>
+                                    </li>
+                                    <li>
+                                        <a href="/client/applications"><i class="fa fa-tasks"></i> Applications </a>
+                                    </li>
+                                @else 
+                                    <li>
+                                        <a href=" {{route('home')}} "><i class="fa fa-dashboard"></i> Dashboard </a>
+                                    </li>
+                                    <li>
+                                        <a href="/user/profile"><i class="fa fa-suitcase"></i> Profile </a>
+                                    </li>
+                                @endif
+                            </ul>
                         </div>
                     </div>
                     <!-- /sidebar menu -->
@@ -111,7 +129,18 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('img/user.png') }}" alt="">{{ Auth::user()->namename }}
+                                @if (Auth::user()->type == 1)
+                                    <img src="{{ asset('backend/images/user.png') }}" alt="">{{ Auth::user()->name }}
+                                @elseif (Auth::user()->type == 2)
+                                    @if (Auth::user()->logo == null)
+                                        <img src="{{ asset('backend/images/user.png') }}" alt="">{{ Auth::user()->name }}
+                                    @else
+                                        <img src="/storage/company_logos/{{Auth::user()->logo}}" alt="">{{ Auth::user()->name }}
+                                    @endif
+                                        
+                                @else 
+                                    <img src="{{ asset('backend/images/user.png') }}" alt="">{{ Auth::user()->name }}
+                                @endif      
                                 <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -162,13 +191,13 @@
                 <div class="clearfix"></div>
 
                 @yield('content')
-
+                
                 <!-- footer content -->
                 
                 <footer>
                     <div class="copyright-info">
-                    <p class="pull-right">{{ config('app.name', ' BlogApp') }}</a>  
-                    </p>
+                        <p class="pull-right">{{ config('app.name', ' BlogApp') }}</a>  
+                        </p>
                     </div>
                     <div class="clearfix"></div>
                 </footer>
@@ -176,13 +205,6 @@
             </div>
             <!-- /page content -->
         </div>
-    </div>
-
-    <div id="custom_notifications" class="custom-notifications dsp_none">
-        <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-        </ul>
-        <div class="clearfix"></div>
-        <div id="notif-group" class="tabbed_notifications"></div>
     </div>
 
     <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>

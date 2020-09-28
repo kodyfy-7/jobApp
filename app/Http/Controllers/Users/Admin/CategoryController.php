@@ -1,33 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\Users\Client;
+namespace App\Http\Controllers\Users\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-use App\Job;
-use App\Application;
-use App\User;
-use App\Resume;
+use Validator;
+use DB;
 
-class ViewApplicationsController extends Controller
+use App\Category;
+
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
-        $this->middleware('auth:client');
+        $this->middleware('auth:admin');
     }
-
 
     public function index()
     {
-        $cID = auth()->user()->id;
-        $jobs = Job::whereClientId($cID)->get();
-        return view('client.application.index', compact('jobs'));
+        //
     }
 
     /**
@@ -48,7 +47,18 @@ class ViewApplicationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'category' => 'required',
+        ]);
+
+        $slug = Str::kebab($request->category);
+        $slug = $slug.'-'.time();
+
+        $category = Category::create([
+            'category_name' => $request->input('category'),
+            'category_slug' => $slug
+        ]);
+        return redirect()->back()->with('success', ' '.$category->category_name.' has been created. ');
     }
 
     /**
@@ -57,20 +67,9 @@ class ViewApplicationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Job $job)
+    public function show($id)
     {
-        $cID = auth()->user()->id;
-        $jobs = Job::whereClientId($cID)->get();
-        $applications = Application::whereJobId($job->id)->orderBy('id', 'desc')->get();
-        return view('client.application.index', compact('jobs', 'applications'));
-    }
-
-    public function view_applicant(Application $application)
-    {
-        $user = User::whereId($application->user_id)->first();
-        $resume = Resume::whereUserId($application->user_id)->whereId($application->resume_id)->first();
-        dd($resume);
-        
+        //
     }
 
     /**
@@ -104,6 +103,8 @@ class ViewApplicationsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->back()->with('error', 'Category Deleted');
     }
 }

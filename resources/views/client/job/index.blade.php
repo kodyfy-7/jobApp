@@ -55,10 +55,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="/client/jobs/{{$job->job_slug}}/edit" class="btn btn-default btn-xs">Edit</a>
+                                            <a href="/client/jobs/{{$job->job_slug}}/edit" class="btn btn-default btn-xs"><i class="fa fa-fw fa-edit"></i></a>
+                                            <a href="/client/applications/{{$job->job_slug}}" class="btn btn-info btn-xs"><i class="fa fa-fw fa-info"></i></a>
+                                            <a href="/client/applications/{{$job->job_slug}}"><button type="button" class="btn btn-primary btn-xs"><i class="fa fa-fw fa-download"></i></span></button></a>
                                             <div style="float: right">{!!Form::open(['action' => ['Users\Client\JobsController@destroy', $job->id], 'method' => 'POST'])!!}
                                                 {{Form::hidden('_method', 'DELETE')}}
-                                                {{Form::submit('Delete', ['class' => 'btn btn-danger btn-xs'])}}
+                                                {{Form::button('<i class="fa fa-fw fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs'])}}
                                             {!!Form::close()!!}
                                             </div>
                                         </td>

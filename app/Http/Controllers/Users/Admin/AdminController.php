@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Client;
 use App\Job;
+use App\Category;
 
 class AdminController extends Controller
 {
@@ -24,8 +25,9 @@ class AdminController extends Controller
         $countUsers = count($users);
         $countJobs = count($jobs);
         $countClients = count($clients);
+        $categories = Category::all();
 
-        return view('admin.dashboard', compact(['users', 'jobs', 'clients','countUsers', 'countClients', 'countJobs']));
+        return view('admin.dashboard', compact(['users', 'jobs', 'clients','countUsers', 'countClients', 'countJobs', 'categories']));
     }
 
     public function show_user(User $user)

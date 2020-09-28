@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Users\Client;
+namespace App\Http\Controllers\Users\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Client;
-use App\ClientProfile;
+use App\User;
 
 class ProfileController extends Controller
 {
@@ -17,13 +16,13 @@ class ProfileController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:client');
+        $this->middleware('auth');
     }
 
 
     public function index()
     {
-        return view('client.profile');
+        return view('user.profile');
     }
 
     /**
@@ -81,57 +80,44 @@ class ProfileController extends Controller
             $this->validate($request, [
                 'address' => 'required',
                 'city' => 'required',
-                'state' => 'required',
-                'linkedin' => 'required',
-                'facebook' => 'required',
-                'twitter' => 'required',
             ]);
         } else 
         {
             $this->validate($request, [
                 'address' => 'required',
                 'city' => 'required',
-                'state' => 'required',
-                'linkedin' => 'required',
-                'facebook' => 'required',
-                'twitter' => 'required',
-                'logo' => 'required|image|max:1999'
+                'img' => 'required|image|max:1999'
             ]);
         }
         
         //Handle file upload
-        if($request->hasFile('logo')){
+        if($request->hasFile('img')){
             // Get filename with the extension
-            $filenameWithExt = $request->file('logo')->getClientOriginalName();
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
             // Get just filename
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             // Get just ext
-            $extension = $request->file('logo')->getClientOriginalExtension();
+            $extension = $request->file('img')->getClientOriginalExtension();
             // Filename to store
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
             // Upload Image
-            $path = $request->file('logo')->storeAs('public/company_logos', $fileNameToStore);
+            $path = $request->file('img')->storeAs('public/user_images', $fileNameToStore);
         }
 
         $form_data = array(
             'profile_status'        =>  1,
             'address'        =>  $request->input('address'),
             'city'        =>  $request->input('city'),
-            'state'        =>  $request->input('state'),
-            'linkedin_link' => $request->input('linkedin'),
-            'twitter_link' => $request->input('twitter'),
-            'facebook_link' => $request->input('facebook'),
-
         );
 
-        Client::whereId(auth()->user()->id)->update($form_data);
+        User::whereId(auth()->user()->id)->update($form_data);
 
         //Update Profile
-        if($request->hasFile('logo')){
+        if($request->hasFile('img')){
             $form_data = array(
-                'logo' => $fileNameToStore,
+                'image' => $fileNameToStore,
             );
-            Client::whereId(auth()->user()->id)->update($form_data);
+            User::whereId(auth()->user()->id)->update($form_data);
         }
         
         return redirect()->back()->with('success', 'Profile Updated.');

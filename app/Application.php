@@ -21,6 +21,11 @@ class Application extends Model
         return $this->belongsTo(Job::class);
     }
 
+    public function resume()
+    {
+        return $this->belongsTo(Resume::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'app_slug';

@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="form-group">
-                            {{Form::label('content', 'Job Description')}}
+                            {{Form::label('deadline', 'Job Deadline')}}
                             {{Form::text('deadline', '', ['id' => 'single_cal2', 'class' => 'form-control', 'placeholder' => '', 'aria-describedby' => 'inputSuccess2Status2'])}}
                         </div>
                         

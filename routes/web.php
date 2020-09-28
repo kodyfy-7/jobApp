@@ -26,7 +26,8 @@ Route::get('/test', function () {
 Auth::routes();
 
 Route::get('/home', 'Users\User\HomeController@home')->name('home');
-Route::post('/upload', 'Users\User\HomeController@upload')->name('upload');
+Route::resource('/profile', 'Users\User\ProfileController');
+Route::post('/apply', 'Users\User\ApplicationController@apply')->name('apply');
 Route::any('/search', 'Users\User\HomeController@search')->name('search');
 
 // Admin routes
@@ -39,6 +40,8 @@ Route::prefix('admin')->group(function(){
 
     Route::get('/users/{user}', 'Users\Admin\AdminController@show_user')->name('admin.user');
     Route::post('/users/{user}', 'Users\Admin\AdminController@destroy_user')->name('admin.deuser');
+
+    Route::resource('/category', 'Users\Admin\CategoryController');
 });
 
 
@@ -54,7 +57,13 @@ Route::prefix('client')->group(function(){
     Route::post('/jobs/publish', 'Users\Client\JobsController@publish')->name('job.publish');
     Route::post('/jobs/unpublish', 'Users\Client\JobsController@unpublish')->name('job.unpublish');
 
-    Route::resource('/applications', 'Users\Client\ViewApplicationsController');
+    //Route::resource('/applications', 'Users\Client\ViewApplicationsController');
+
+    Route::get('/applications', 'Users\Client\ViewApplicationsController@index');
+
+    Route::get('/applications/{job}', 'Users\Client\ViewApplicationsController@show');
+
+    Route::get('/applications/view_applicant/{application}', 'Users\Client\ViewApplicationsController@view_applicant');
 
     Route::resource('/profile', 'Users\Client\ProfileController');
 });
