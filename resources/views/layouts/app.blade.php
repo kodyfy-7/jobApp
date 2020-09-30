@@ -6,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'JobApp') }}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -35,7 +35,7 @@
     <!-- navbar-->
     <header class="header">
       <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 py-lg-2">
-        <div class="container"><a class="navbar-brand py-3 d-flex align-items-center" href="{{ url('/') }}"><img src=" {{asset('frontend/img/logo.svg')}} " alt="" width="30"><span class="text-uppercase text-small font-weight-bold text-dark ml-2 mb-0">{{ config('app.name', 'Laravel') }}</span></a>
+        <div class="container"><a class="navbar-brand py-3 d-flex align-items-center" href="{{ url('/') }}"><img src=" {{asset('frontend/img/logo.svg')}} " alt="" width="30"><span class="text-uppercase text-small font-weight-bold text-dark ml-2 mb-0">{{ config('app.name', 'JobApp') }}</span></a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
