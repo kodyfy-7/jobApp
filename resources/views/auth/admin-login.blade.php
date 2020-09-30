@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.loginapp')
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="margin-top: 150px">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Admin Login') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('admin.login.submit') }}">
@@ -66,7 +64,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
             </div>
         </div>
     </div>
