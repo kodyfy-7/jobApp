@@ -19,8 +19,8 @@ Route::get('/', 'Users\User\HomeController@index');
 
 Route::get('/job/{job}', 'Users\User\HomeController@show');
 
-Route::get('/test', function () {
-    return view('test');
+Route::get('/about', function () {
+    return view('about');
 });
 
 Auth::routes();

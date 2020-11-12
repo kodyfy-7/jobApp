@@ -59,6 +59,9 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <div>
+                                    <a href="/client/login">Login as a company</a>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -39,6 +39,9 @@
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About App</a>
+                </li>
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item">
@@ -81,7 +84,7 @@
         <div class="row py-5">
             <div class="col-md-4 col-sm-12 mb-3 mb-md-0">
             <div class="d-flex align-items-center mb-3"><img src=" {{asset('frontend/img/logo-footer.svg')}} " alt="" width="30"><span class="text-uppercase text-small font-weight-bold text-white ml-2">{{ config('app.name', 'JobApp') }}</span></div>
-            <p class="text-muted text-small font-weight-light mb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+            <p class="text-muted text-small font-weight-light mb-3"><a href="/client/register">Register as a company</a></p>
             <ul class="list-inline mb-0 text-white">
                 <li class="list-inline-item"><a class="reset-anchor text-small" href="#"><i class="fab fa-facebook-f"></i></a></li>
                 <li class="list-inline-item"><a class="reset-anchor text-small" href="#"><i class="fab fa-twitter"></i></a></li>
@@ -93,7 +96,7 @@
             <h6 class="pt-2 text-white">Useful links</h6>
             <div class="d-flex flex-wrap">
                 <ul class="list-unstyled text-muted mb-0 mb-3 mr-4">
-                <li><a class="reset-anchor text-small" href="#">About us</a></li>
+                <li><a class="reset-anchor text-small" href="/about">About App</a></li>
                 <li><a class="reset-anchor text-small" href="#">Write to us</a></li>
                 </ul>
                 <ul class="list-unstyled text-muted mb-0">
